@@ -35,12 +35,19 @@ class M68KOpValue(ctypes.Union):
         ('reg_pair', M68KOpRegPair),
     )
 
+class M68KOpBrDisp(ctypes.Structure):
+    _fields_ = (
+        ('disp', ctypes.c_int),
+        ('disp_size', ctypes.c_ubyte),
+    )
+    
 class M68KOp(ctypes.Structure):
     _fields_ = (
         ('value', M68KOpValue),
-        ('type', ctypes.c_uint),
         ('mem', M68KOpMem),
+        ('br_disp', M68KOpBrDisp),
         ('register_bits', ctypes.c_uint),
+        ('type', ctypes.c_uint),
         ('address_mode', ctypes.c_uint),
     )
 

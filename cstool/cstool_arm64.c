@@ -6,7 +6,7 @@
 
 #include <capstone/capstone.h>
 
-void print_string_hex(char *comment, unsigned char *str, size_t len);
+void print_insn_detail_arm64(csh handle, cs_insn *ins);
 
 void print_insn_detail_arm64(csh handle, cs_insn *ins)
 {
@@ -14,6 +14,7 @@ void print_insn_detail_arm64(csh handle, cs_insn *ins)
 	int i;
 	cs_regs regs_read, regs_write;
 	uint8_t regs_read_count, regs_write_count;
+	uint8_t access;
 	
 	// detail can be NULL if SKIPDATA option is turned ON
 	if (ins->detail == NULL)
@@ -75,7 +76,7 @@ void print_insn_detail_arm64(csh handle, cs_insn *ins)
 				break;
 		}
 		
-		uint8_t access = op->access;
+		access = op->access;
 		switch(access) {
 			default:
 				break;
@@ -100,9 +101,6 @@ void print_insn_detail_arm64(csh handle, cs_insn *ins)
 
 		if (op->vas != ARM64_VAS_INVALID)
 			printf("\t\t\tVector Arrangement Specifier: 0x%x\n", op->vas);
-
-		if (op->vess != ARM64_VESS_INVALID)
-			printf("\t\t\tVector Element Size Specifier: %u\n", op->vess);
 
 		if (op->vector_index != -1)
 			printf("\t\t\tVector Index: %u\n", op->vector_index);
